@@ -1,10 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
   <body>
     <h1>Cultivated Meat Dashboard</h1>
     <p>Welcome to the Cultivated Meat Dashboard!</p>
+    <section id="Inputs">
+      <!-- Selection of process type -->
+      <div>
+        <h4>Flow Diagram: Process [Process Name]</h4>
+        <img src="https://mcdonald-nandi.ech.ucdavis.edu/wp-content/uploads/2023/05/CM-TEA-Screenshot-768x457.jpg">
+      </div>
+      <div id="Parameters">
+        <div class="parameter">
+          <h4>Parameter 1</h4>
+          <input type="range" min="1" max="10" step="1">
+          <label id="value">5</label>
+        </div>
+        <div class="parameter">
+          <h4>Parameter 2</h4>
+          <input type="range">
+          <label id="value"></label>
+        </div>
+        <div class="parameter">
+          <h4>Parameter 3</h4>
+          <input type="range">
+          <label id="value"></label>
+        </div>
+        <!-- Add more parameters as needed -->
+      </div>
+      <button>Calculate!</button>
+    </section>
+    <section id="Outputs">
+      <div class="category">
+        <h3>Capital Expenses</h3>
+        <p>Total capital expenses for the process [Process Name] are: $[Total Capital Expenses]</p>
+        <div id="data">
+          <table></table>
+          <!-- list of values  -->
+          <ul>
+            <li>Data Value 1</li>
+            <li>Data Value 2</li>
+            <li>Data Value 3</li>
+          </ul>
+        </div>
+      </div>
+      <div class="category">
+        <h3>Operational Expenses</h3>
+      </div>
+    </section>
   </body>
 </html>

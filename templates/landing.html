@@ -4,18 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
+    <script src="static/landing.js"> </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
-  <body>
+  <body class="mx-5">
     <h1>Cultivated Meat Dashboard</h1>
     <p>Welcome to the Cultivated Meat Dashboard!</p>
+    <p>Please select a process type from the dropdown menu below:</p>
+    <select id ="bioreactorType" onchange=changeBioreactorType()>
+      <option value="1">42K STR</option>
+      <option value="2">211K STR</option>
+      <option value="3">262K ALR</option>
+    </select>
     <section id="Inputs">
       <!-- Selection of process type -->
       <div>
-        <h4>Flow Diagram: Process [Process Name]</h4>
-        <img src="https://mcdonald-nandi.ech.ucdavis.edu/wp-content/uploads/2023/05/CM-TEA-Screenshot-768x457.jpg">
+          <h4 id="bioreactorLabel">Flow Diagram: 42,000 L Stirred Tank Bioreactor</h4>
+            <img src="static/40K_STR.png" alt="Flow Diagram" id="flowDiagram" class="img-fluid border">
       </div>
-      <div id="Parameters">
+      <div id="Parameters
+        
+        <!-- +- for labor   -->
         <div class="parameter">
           <h4>Parameter 1</h4>
           <input type="range" min="1" max="10" step="1">

@@ -17,9 +17,9 @@
 	<section id="Inputs">
         <p>Please select a process type from the dropdown menu below:</p>
         <select id="bioreactorType" onchange=changeBioreactorType()>
-            <option value="1">42K STR</option>
-            <option value="2">211K STR</option>
-            <option value="3">262K ALR</option>
+            <option value="40K_STR">42K STR</option>
+            <option value="210K_STR">211K STR</option>
+            <option value="260K_ALR">262K ALR</option>
         </select>
 		<div>
 			<h4 id="bioreactorLabel">Flow Diagram: 42,000 L Stirred Tank Bioreactor</h4>
@@ -28,27 +28,27 @@
 		<div id="Parameters">
             <div class="parameter">
                 <h6>Media Cost ($/L)</h6>
-                <input type="number" value="1">
+                <input type="number" value="1" id="mediaCost">
             </div>
             <div class="parameter">
                 <h6>Change in Labor Cost (%)</h6>
-                <input type="number" value="0">
+                <input type="number" value="0" id="laborCost">
             </div>
             <div class="parameter">
                 <h6>Cost of Power ($/kW-h)</h6>
-                <input type="number" value="0.1">
+                <input type="number" value="0.1" id="powerCost">
             </div>
             <div class="parameter">
                 <h6>Cost of Steam ($/MT)</h6>
-                <input type="number" value="12">
+                <input type="number" value="12" id="steamCost">
             </div>
             <div class="parameter">
                 <h6>Cost of Cooling Water ($/MT)</h6>
-                <input type="number" value="0.05">
+                <input type="number" value="0.05" id="coolingWaterCost">
             </div>
             <div class="parameter">
                 <h6>Cost of Chilled Water ($/MT)</h6>
-                <input type="number" value="0.5">
+                <input type="number" value="0.5" id="chilledWaterCost">
             </div>
             <div>
             <!-- can modularize/create function for this -->
@@ -74,6 +74,7 @@
                     onchange="updateParameter('powerCost', this.value)">
             </div> -->
             </div>
+        </div>
 		<button onclick="updateChart()">Calculate!</button>
 	</section>
 	<section id="Outputs">

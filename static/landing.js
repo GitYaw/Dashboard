@@ -1,11 +1,65 @@
 
-
 window.onload = onPageLoad;
 
-var parameterValues = new Map()
+let productionCosts = new Map()
+
+const bioreactors = {
+    "260K_ALR": {
+        name: "262,000 L Airlift Bioreactor",
+        image: "static/260K_ALR.png",
+        annualProduction: 25000000,
+        mediaVolume: 253758783,
+        baseLaborCost: 2756*34.50 + 20353*46.00 + 261*57.50,
+        otherMaterialsCost: 5464682,
+        wasteTreatmentCost: 3034484,
+        facilityCosts: 59461000,
+        consumableCosts: 246000,
+        powerUsage: 3116542,
+        steamUsage: 27232,
+        coolingWaterUsage: 1263320,
+        chilledWaterUsage: 110527
+    },
+    "210K_STR": {
+        name: "211,000 L Stirred Tank Bioreactor",
+        image: "static/210K_STR.png",
+        annualProduction: 20170140,
+        mediaVolume: 205220306,
+        baseLaborCost: 1443*34.50 + 20302*46.00 + 261*57.50,
+        otherMaterialsCost: 4566256,
+        wasteTreatmentCost: 2486000,
+        facilityCosts: 205003000,
+        consumableCosts: 246000,
+        powerUsage: 8790694,
+        steamUsage: 22166,
+        coolingWaterUsage: 1944436,
+        chilledWaterUsage: 89448
+    },
+    "40K_STR": {
+        name: "42,000 L Stirred Tank Bioreactor",
+        image: "static/40K_STR.png",
+        annualProduction: 4003226,
+        mediaVolume: 40732424,
+        baseLaborCost: 722*34.50 + 24076*46.00 + 261*57.50,
+        otherMaterialsCost: 2519278,
+        wasteTreatmentCost: 697000,
+        facilityCosts: 77202000,
+        consumableCosts: 123000,
+        powerUsage: 8790694,
+        steamUsage: 22166,
+        coolingWaterUsage: 1944436,
+        chilledWaterUsage: 89448
+    },
+};
+
+let bioreactor = bioreactors["40K_STR"]
 
 function onPageLoad() {
     console.log("page loading")
+
+    updateCosts()
+
+    calculateExpenses()
+    
     createChart()
 }
 
@@ -30,41 +84,24 @@ function createChart() {
 }
 
 function changeBioreactorType() {
-    // change diagram
-    // also change full name of bioreactor type
+    
     var dropdown = document.getElementById("bioreactorType");
-    var selectedValue = dropdown.options[dropdown.selectedIndex].value;
-    
+    var bioreactorType = dropdown.options[dropdown.selectedIndex].value;
+    bioreactor = bioreactors[bioreactorType]
+
     var flowDiagram = document.getElementById("flowDiagram");
-    
-    if (selectedValue === "1") {
-        var bioreactorName = "42,000 L Stirred Tank Bioreactor"
-        flowDiagram.src = "static/40K_STR.png";
-    } else if (selectedValue === "2") {
-        var bioreactorName = "211,000 L Stirred Tank Bioreactor"
-        flowDiagram.src = "static/210K_STR.png";
-    } else if (selectedValue === "3") {
-        var bioreactorName = "262,000 L Airlift Bioreactor"
-        flowDiagram.src = "static/260K_ALR.png";
-    }
-    
+    flowDiagram.src = bioreactors[bioreactorType].image;
+
     var bioreactorLabel = document.getElementById("bioreactorLabel");
-    bioreactorLabel.innerHTML = "Flow Diagram: " + bioreactorName;	
+    bioreactorLabel.innerHTML = "Flow Diagram: " + bioreactors[bioreactorType].name;	
 }
 
-// function updateParameter(parameter, value, fromRangeInput) {
-//     parameterValues.set(parameter, value)
-
-//     if (fromRangeInput) {
-//         var numberInput = document.getElementById(parameter)
-//         numberInput.value = value
-//     } else {
-//         var rangeInput = document.getElementById(parameter + "Slider")
-//         rangeInput.value = value
-//     }
-// }
-
 function updateChart() {
+
+    updateCosts()
+
+    calculateExpenses()
+    
     var updatedData = {
         labels: ["Labor", "Materials", "Equipment", "Other"],
         datasets: [{
@@ -84,4 +121,20 @@ function updateChart() {
     } else {
         createChart();
     }
+}
+
+function updateCosts() {
+    productionCosts.mediaCost = parseFloat(document.getElementById('mediaCost').value);
+    productionCosts.laborCost = parseFloat(document.getElementById('laborCost').value);
+    productionCosts.powerCost = parseFloat(document.getElementById('powerCost').value);
+    productionCosts.steamCost = parseFloat(document.getElementById('steamCost').value);
+    productionCosts.coolingWaterCost = parseFloat(document.getElementById('coolingWaterCost').value);
+    productionCosts.chilledWaterCost = parseFloat(document.getElementById('chilledWaterCost').value);
+}
+
+var annualProduction
+var mediaVolume
+
+function calculateExpenses() {
+    
 }

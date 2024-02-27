@@ -16,10 +16,10 @@
     <!-- Selection of process type -->
 	<section id="Inputs">
         <p>Please select a process type from the dropdown menu below:</p>
-        <select id="bioreactorType" onchange=changeBioreactorType()>
+        <select id="bioreactorType" onchange=selectBioreactor()>
             <option value="40K_STR">42K STR</option>
             <option value="210K_STR">211K STR</option>
-            <option value="260K_ALR">262K ALR</option>
+            <option value="260K_ALR" selected>262K ALR</option>
         </select>
 		<div>
 			<h4 id="bioreactorLabel">Flow Diagram: 42,000 L Stirred Tank Bioreactor</h4>
@@ -48,7 +48,7 @@
             </div>
             <div class="parameter">
                 <h6>Cost of Chilled Water ($/MT)</h6>
-                <input type="number" value="0.5" id="chilledWaterCost">
+                <input type="number" value="0.4" id="chilledWaterCost">
             </div>
             <div>
             <!-- can modularize/create function for this -->

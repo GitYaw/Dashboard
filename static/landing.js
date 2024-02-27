@@ -17,7 +17,9 @@ const bioreactors = {
         powerUsage: 3116542,
         steamUsage: 27232,
         coolingWaterUsage: 1263320,
-        chilledWaterUsage: 110527
+        chilledWaterUsage: 110527,
+        capitalExpense: 0, // missing capital expense
+        depreciation: 1.2
     },
     "210K_STR": {
         name: "211,000 L Stirred Tank Bioreactor",
@@ -32,7 +34,9 @@ const bioreactors = {
         powerUsage: 8790694,
         steamUsage: 22166,
         coolingWaterUsage: 1944436,
-        chilledWaterUsage: 89448
+        chilledWaterUsage: 89448,
+        capitalExpense: 1172900000,
+        depreciation: 9.76
     },
     "40K_STR": {
         name: "42,000 L Stirred Tank Bioreactor",
@@ -47,20 +51,22 @@ const bioreactors = {
         powerUsage: 8790694,
         steamUsage: 22166,
         coolingWaterUsage: 1944436,
-        chilledWaterUsage: 89448
+        chilledWaterUsage: 89448,
+        capitalExpense: 437200000, 
+        depreciation: 5.14
     },
 };
-
-let bioreactor = bioreactors["40K_STR"]
+var bioreactor;
 
 function onPageLoad() {
-    console.log("page loading")
 
-    updateCosts()
+    selectBioreactor();
 
-    calculateExpenses()
+    updateCosts();
+
+    calculateExpenses();
     
-    createChart()
+    createChart();
 }
 
 function createChart() {
@@ -83,17 +89,18 @@ function createChart() {
     });
 }
 
-function changeBioreactorType() {
+function selectBioreactor() {
     
     var dropdown = document.getElementById("bioreactorType");
     var bioreactorType = dropdown.options[dropdown.selectedIndex].value;
-    bioreactor = bioreactors[bioreactorType]
+    bioreactor = bioreactors[bioreactorType];
 
     var flowDiagram = document.getElementById("flowDiagram");
     flowDiagram.src = bioreactors[bioreactorType].image;
 
     var bioreactorLabel = document.getElementById("bioreactorLabel");
     bioreactorLabel.innerHTML = "Flow Diagram: " + bioreactors[bioreactorType].name;	
+    
 }
 
 function updateChart() {
@@ -124,17 +131,44 @@ function updateChart() {
 }
 
 function updateCosts() {
-    productionCosts.mediaCost = parseFloat(document.getElementById('mediaCost').value);
-    productionCosts.laborCost = parseFloat(document.getElementById('laborCost').value);
-    productionCosts.powerCost = parseFloat(document.getElementById('powerCost').value);
-    productionCosts.steamCost = parseFloat(document.getElementById('steamCost').value);
-    productionCosts.coolingWaterCost = parseFloat(document.getElementById('coolingWaterCost').value);
-    productionCosts.chilledWaterCost = parseFloat(document.getElementById('chilledWaterCost').value);
+    productionCosts.media = parseFloat(document.getElementById('mediaCost').value);
+    productionCosts.laborScale = parseFloat(document.getElementById('laborCost').value);
+    productionCosts.power = parseFloat(document.getElementById('powerCost').value);
+    productionCosts.steam = parseFloat(document.getElementById('steamCost').value);
+    productionCosts.coolingWater = parseFloat(document.getElementById('coolingWaterCost').value);
+    productionCosts.chilledWater = parseFloat(document.getElementById('chilledWaterCost').value);
 }
 
-var annualProduction
-var mediaVolume
-
 function calculateExpenses() {
+    console.log(bioreactor)
     
+    // Cost of Utilities
+    var power = productionCosts.power * bioreactor.powerUsage;
+    var steam = productionCosts.steam * bioreactor.steamUsage;
+    var coolingWater = productionCosts.coolingWater * bioreactor.coolingWaterUsage;
+    var chilledWater = productionCosts.chilledWater * bioreactor.chilledWaterUsage;
+    var utilities = power + steam + coolingWater + chilledWater;
+
+    // Operating Expenses
+    var media = productionCosts.media * bioreactor.mediaVolume;
+    var otherMaterials = bioreactor.otherMaterialsCost;
+    var labor = (1 + productionCosts.laborScale) * bioreactor.baseLaborCost;
+    var waste = bioreactor.wasteTreatmentCost;
+    var facility = bioreactor.facilityCosts;
+    var consumables = bioreactor.consumableCosts;
+    operatingExpenses = media + otherMaterials + labor + waste + facility + consumables + utilities;
+    
+    // Capital Expense
+    capitalExpense = bioreactor.capitalExpense;
+
+    // Costs of Goods Sold
+    var salesCost = operatingExpenses / bioreactor.annualProduction;
+
+    // Costs of Goods Sold (without depreciation)
+    var adjustedSalesCost = salesCost - bioreactor.depreciation;
+
+    console.log("CAPEX: ", (capitalExpense / 1000000).toFixed(1), "(mil $)")
+    console.log("OPEX: ", (operatingExpenses / 1000000).toFixed(1), "(mil $/yr)")
+    console.log("COGS: ", salesCost.toFixed(2), "($/kg) (with Depreciaton)")
+    console.log("COGS: ", adjustedSalesCost.toFixed(2), "($/kg) (without Depreciation)")
 }

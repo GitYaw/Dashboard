@@ -75,26 +75,26 @@
             </div> -->
             </div>
         </div>
-		<button onclick="updateChart()">Calculate!</button>
+		<button onclick="displayOutputs()">Update</button>
 	</section>
 	<section id="Outputs">
-        <canvas id="expensesChart"></canvas>
-		<div class="category">
-			<h3>Capital Expenses</h3>
-			<p>Total capital expenses for the process [Process Name] are: $[Total Capital Expenses]</p>
-			<div id="data">
-				<table></table>
-				<!-- list of values  -->
-				<ul>
-					<li>Data Value 1</li>
-					<li>Data Value 2</li>
-					<li>Data Value 3</li>
-				</ul>
-			</div>
-		</div>
-		<div class="category">
-			<h3>Operational Expenses</h3>
-		</div>
+        <div>
+            <!-- have two columns?  -->
+            <div>
+                <h3>Expense Breakdown</h3>
+                <ul>
+                    <li><strong>Bioreactor:</strong> <span id="bioreactorName"></span></li>
+                    <li><strong>Annual Production:</strong> <span id="annualProduction"></span> MT/yr</li>
+                    <li><strong>Capital Expenses:</strong> $<span id="capitalExpenses"></span> million</li>
+                    <li><strong>Operating Expenses:</strong> $<span id="operatingExpenses"></span> million/yr</li>
+                    <li><strong>COGS (with Depreciation):</strong> $<span id="cogsWithDepreciation"></span>/kg</li>
+                    <li><strong>COGS (without Depreciation):</strong> $<span id="cogsWithoutDepreciation"></span>/kg</li>
+                </ul>
+            </div>
+            <div>
+                <canvas id="expensesChart"></canvas>
+            </div>
+        </div>
 	</section>
 </body>
 

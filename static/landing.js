@@ -1,7 +1,9 @@
 
 window.onload = onPageLoad;
 
-let productionCosts = new Map()
+let productionCosts = new Map();
+let chartData = new Map();
+var expensesChart;
 
 const bioreactors = {
     "260K_ALR": {
@@ -18,7 +20,7 @@ const bioreactors = {
         steamUsage: 27232,
         coolingWaterUsage: 1263320,
         chilledWaterUsage: 110527,
-        capitalExpense: 0, // missing capital expense
+        capitalExpense: 365900000, // missing capital expense
         depreciation: 1.2
     },
     "210K_STR": {
@@ -69,26 +71,6 @@ function onPageLoad() {
     createChart();
 }
 
-function createChart() {
-    
-    var initialData = {
-        labels: ["Labor", "Materials", "Equipment", "Other"],
-        datasets: [{
-            data: [10, 20, 30, 40],
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50"],
-        }]
-    };
-
-    var context = document.getElementById('expensesChart').getContext('2d');
-
-    var expensesChart = new Chart(context, {
-        type: 'doughnut',
-        data: initialData,
-        options: {
-        }
-    });
-}
-
 function selectBioreactor() {
     
     var dropdown = document.getElementById("bioreactorType");
@@ -103,27 +85,15 @@ function selectBioreactor() {
     
 }
 
-function updateChart() {
+function displayOutputs() {
 
     updateCosts()
 
     calculateExpenses()
     
-    var updatedData = {
-        labels: ["Labor", "Materials", "Equipment", "Other"],
-        datasets: [{
-            data: [40, 30, 20, 10],
-            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50"],
-        },{
-                      data: [10, 30, 20, 40],
-                      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4CAF50"],
-                  }]
-    };
-
-    var expensesChart = Chart.getChart('expensesChart');
-
     if (expensesChart) {
-        expensesChart.data.datasets = updatedData.datasets;
+        expensesChart.data.labels = Array.from(chartData.keys());
+        expensesChart.data.datasets[0].data = Array.from(chartData.values());
         expensesChart.update();
     } else {
         createChart();
@@ -137,6 +107,7 @@ function updateCosts() {
     productionCosts.steam = parseFloat(document.getElementById('steamCost').value);
     productionCosts.coolingWater = parseFloat(document.getElementById('coolingWaterCost').value);
     productionCosts.chilledWater = parseFloat(document.getElementById('chilledWaterCost').value);
+    
 }
 
 function calculateExpenses() {
@@ -159,7 +130,7 @@ function calculateExpenses() {
     operatingExpenses = media + otherMaterials + labor + waste + facility + consumables + utilities;
     
     // Capital Expense
-    capitalExpense = bioreactor.capitalExpense;
+    var capitalExpense = bioreactor.capitalExpense;
 
     // Costs of Goods Sold
     var salesCost = operatingExpenses / bioreactor.annualProduction;
@@ -171,4 +142,58 @@ function calculateExpenses() {
     console.log("OPEX: ", (operatingExpenses / 1000000).toFixed(1), "(mil $/yr)")
     console.log("COGS: ", salesCost.toFixed(2), "($/kg) (with Depreciaton)")
     console.log("COGS: ", adjustedSalesCost.toFixed(2), "($/kg) (without Depreciation)")
+
+    document.getElementById("bioreactorName").innerText = bioreactor.name;
+    document.getElementById("annualProduction").innerText = (bioreactor.annualProduction / 1000).toLocaleString();
+    document.getElementById("capitalExpenses").innerText = (capitalExpense / 1000000).toFixed(1);
+    document.getElementById("operatingExpenses").innerText = (operatingExpenses / 1000000).toFixed(1);
+    document.getElementById("cogsWithDepreciation").innerText = salesCost.toFixed(2);
+    document.getElementById("cogsWithoutDepreciation").innerText = adjustedSalesCost.toFixed(2);
+
+    chartData.set('Media', media);
+    chartData.set('Other Raw Materials', otherMaterials);
+    chartData.set('Labor', labor);
+    chartData.set('Waste Treatment', waste);
+    chartData.set('Facility Dependent Cost', facility);
+    chartData.set('Consumables', consumables);
+    chartData.set('Utilities', utilities);
+}
+
+function createChart() {
+
+    var context = document.getElementById('expensesChart').getContext('2d');
+
+    var initialData = {
+        labels: Array.from(chartData.keys()),
+        datasets: [{
+            data: Array.from(chartData.values()),
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9966FF', '#FFA07A', '#808080'],
+        }]
+    };
+
+    expensesChart = new Chart(context, {
+        type: 'doughnut',
+        data: initialData,
+        options: {
+            legend: {
+                display: true,
+                position: 'right', // adjust position as needed
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var total = dataset.data.reduce(function (previousValue, currentValue) {
+                            return previousValue + currentValue;
+                        });
+                        var currentValue = dataset.data[tooltipItem.index];
+                        var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                        return `${data.labels[tooltipItem.index]}: ${currentValue} (${percentage}%)`;
+                    },
+                },
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        },
+    });
 }

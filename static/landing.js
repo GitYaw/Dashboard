@@ -143,8 +143,8 @@ function calculateExpenses() {
     console.log("COGS: ", salesCost.toFixed(2), "($/kg) (with Depreciaton)")
     console.log("COGS: ", adjustedSalesCost.toFixed(2), "($/kg) (without Depreciation)")
 
-    document.getElementById("bioreactorName").innerText = bioreactor.name;
-    document.getElementById("annualProduction").innerText = (bioreactor.annualProduction / 1000).toLocaleString();
+    // document.getElementById("bioreactorName").innerText = bioreactor.name;
+    document.getElementById("annualProduction").innerText = bioreactor.annualProduction.toLocaleString();
     document.getElementById("capitalExpenses").innerText = (capitalExpense / 1000000).toFixed(1);
     document.getElementById("operatingExpenses").innerText = (operatingExpenses / 1000000).toFixed(1);
     document.getElementById("cogsWithDepreciation").innerText = salesCost.toFixed(2);
@@ -160,9 +160,7 @@ function calculateExpenses() {
 }
 
 function createChart() {
-
     var context = document.getElementById('expensesChart').getContext('2d');
-
     var initialData = {
         labels: Array.from(chartData.keys()),
         datasets: [{
@@ -170,30 +168,12 @@ function createChart() {
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#9966FF', '#FFA07A', '#808080'],
         }]
     };
-
     expensesChart = new Chart(context, {
         type: 'doughnut',
         data: initialData,
         options: {
-            legend: {
-                display: true,
-                position: 'right', // adjust position as needed
-            },
-            tooltips: {
-                callbacks: {
-                    label: function (tooltipItem, data) {
-                        var dataset = data.datasets[tooltipItem.datasetIndex];
-                        var total = dataset.data.reduce(function (previousValue, currentValue) {
-                            return previousValue + currentValue;
-                        });
-                        var currentValue = dataset.data[tooltipItem.index];
-                        var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
-                        return `${data.labels[tooltipItem.index]}: ${currentValue} (${percentage}%)`;
-                    },
-                },
-            },
             responsive: true,
-            maintainAspectRatio: false,
+            aspectRatio: 1
         },
     });
 }

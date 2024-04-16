@@ -74,6 +74,10 @@ function onPageLoad() {
 function selectBioreactor() {
     
     var dropdown = document.getElementById("bioreactorType");
+    if (dropdown.selectedIndex == 0){
+        return
+    }
+    
     var bioreactorType = dropdown.options[dropdown.selectedIndex].value;
     bioreactor = bioreactors[bioreactorType];
 
@@ -103,7 +107,7 @@ function displayOutputs() {
 function updateCosts() {
     productionCosts.media = parseFloat(document.getElementById('mediaCost').value);
     productionCosts.laborScale = parseFloat(document.getElementById('laborCost').value);
-    productionCosts.power = parseFloat(document.getElementById('powerCost').value);
+    productionCosts.power = parseFloat(document.getElementById('electricityCost').value);
     productionCosts.steam = parseFloat(document.getElementById('steamCost').value);
     productionCosts.coolingWater = parseFloat(document.getElementById('coolingWaterCost').value);
     productionCosts.chilledWater = parseFloat(document.getElementById('chilledWaterCost').value);

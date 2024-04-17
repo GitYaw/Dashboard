@@ -31,61 +31,63 @@
     <section id="calculator">
         <div id="main-content">
             <div id="inputs">
-                <div id="parameters">
-                    <div class="parameter mb-3">
-                        <label for="mediaCost" class="form-label"><strong>Media Cost</strong></label>
-                        <div class="input-group">
-                          <span class="input-group-text">$</span>
-                          <input type="number" class="form-control" value="1" id="mediaCost">
-                              <span class="input-group-text"> / L</span>
+                <form>
+                    <div id="parameters">
+                        <div class="parameter mb-3">
+                            <label for="mediaCost" class="form-label"><strong>Media Cost</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter media cost" value="1" id="mediaCost" required>
+                                  <span class="input-group-text"> / L</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="laborCost" class="form-label"><strong>Change in Labor Cost</strong></label>
+                            <div class="parameter-value input-group">
+                              <input type="number" class="form-control" placeholder="Enter change in labor cost" value="0" id="laborCost" required>
+                              <span class="input-group-text">%</span>
+                            </div>
+                            <div class="form-text">Labor cost as a percent difference from base labor cost of bioreactor.</div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="electricityCost" class="form-label"><strong>Electricity Cost</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of electricity" value="0.1" step="0.1" id="electricityCost" required>
+                                  <span class="input-group-text"> / kW-h</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="steamCost" class="form-label"><strong>Steam Cost</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of steam" value="10" id="steamCost" required>
+                                  <span class="input-group-text"> / MT</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="coolingWaterCost" class="form-label"><strong>Cost of Cooling Water</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of cooling water" value="0.05" step="0.05" id="coolingWaterCost" required>
+                                  <span class="input-group-text"> / MT</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="chilledWaterCost" class="form-label"><strong>Cost of Chilled Water</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of chilled water" value="0.5" step="0.1" id="chilledWaterCost" required>
+                                  <span class="input-group-text"> / MT</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="parameter mb-3">
-                        <label for="laborCost" class="form-label"><strong>Change in Labor Cost</strong></label>
-                        <div class="parameter-value input-group">
-                          <input type="number" class="form-control" placeholder="Enter change in labor cost" value="0" id="laborCost">
-                          <span class="input-group-text">%</span>
-                        </div>
-                        <div class="form-text">Labor cost as a percent difference from base labor cost of bioreactor.</div>
+                    <div id="parameter-dropdown">
                     </div>
-                    <div class="parameter mb-3">
-                        <label for="electricityCost" class="form-label"><strong>Electricity Cost</strong></label>
-                        <div class="input-group">
-                          <span class="input-group-text">$</span>
-                          <input type="number" class="form-control" value="0.1" step="0.1" id="electricityCost">
-                              <span class="input-group-text"> / kW-h</span>
-                        </div>
+                    <div id="parameter-update">
+                        <button type="button" class="btn btn-primary" onclick="displayOutputs()">Update</button>
                     </div>
-                    <div class="parameter mb-3">
-                        <label for="steamCost" class="form-label"><strong>Steam Cost</strong></label>
-                        <div class="input-group">
-                          <span class="input-group-text">$</span>
-                          <input type="number" class="form-control" value="10" id="steamCost">
-                              <span class="input-group-text"> / MT</span>
-                        </div>
-                    </div>
-                    <div class="parameter mb-3">
-                        <label for="coolingWaterCost" class="form-label"><strong>Cost of Cooling Water</strong></label>
-                        <div class="input-group">
-                          <span class="input-group-text">$</span>
-                          <input type="number" class="form-control" value="0.05" step="0.05" id="coolingWaterCost">
-                              <span class="input-group-text"> / MT</span>
-                        </div>
-                    </div>
-                    <div class="parameter mb-3">
-                        <label for="chilledWaterCost" class="form-label"><strong>Cost of Chilled Water</strong></label>
-                        <div class="input-group">
-                          <span class="input-group-text">$</span>
-                          <input type="number" class="form-control" value="0.5" step="0.1" id="chilledWaterCost">
-                              <span class="input-group-text"> / MT</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="parameter-dropdown">
-                </div>
-                <div id="parameter-update">
-                    <button type="submit" class="btn btn-primary" onclick="displayOutputs()">Update</button>
-                </div>
+                </form>
             </div>
             <div id="outputs">
                 <div id="output-title">

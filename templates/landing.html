@@ -11,11 +11,11 @@
 </head>
 
 <body class="mx-5">
-    <header>
-        <h1>Cultivated Meat Dashboard</h1>
+    <header class="mb-4">
+        <h1 class="display-6">Cultivated Meat Dashboard</h1>
     </header>
-    <section id="diagram">
-        <div id="diagram-select">
+    <section class="mb-4" id="diagram">
+        <div class="mb-3" id="diagram-select">
             <select class="form-select" id="bioreactorType" onchange=selectBioreactor()>
               <!-- <option selected>Select a bioreactor</option> -->
                 <option value="40K_STR">42K STR</option>
@@ -28,9 +28,9 @@
             <img src="" alt="Flow Diagram" id="flowDiagram" class="img-fluid border">
         </div>
     </section>
-    <section id="calculator">
-        <div id="main-content">
-            <div id="inputs">
+    <section class="container-fluid mb-4" id="calculator">
+        <div class="row" id="main-content">
+            <div class="col-md-4" id="inputs">
                 <form>
                     <div id="parameters">
                         <div class="parameter mb-3">
@@ -89,16 +89,17 @@
                     </div>
                 </form>
             </div>
-            <div id="outputs">
+            <div class="col-md-8 shadow-sm p-3 mb-5 rounded" id="outputs">
                 <div id="output-title">
-                    <h2>Expense Breakdown</h2>
+                    <h3>Expense Breakdown Per Facility</h3>
+                    <p class="small">(<span id="facilitiesNeeded"></span> facilities needed to reach 100,000,000 kg/yr.)</p>
                 </div>
-                <div id="expense-breakdown">
-                    <div id="chart-container" style="max-width: 50%">
+                <div class="row" id="expense-breakdown">
+                    <div class="col-8" id="chart-container">
                         <canvas id="expensesChart"></canvas>
                     </div>
-                    <div id="expense-list">
-                        <div class="expense-category">
+                    <div class="col align-self-center" id="expense-list">
+                        <div class="expense-category mb-3">
                             <div class="expense-label">
                                 <h6>Annual Production</h6>
                             </div>
@@ -106,7 +107,7 @@
                                 <span id="annualProduction"></span> kg/yr
                             </div>
                         </div>
-                        <div class="expense-category">
+                        <div class="expense-category mb-3">
                             <div class="expense-label">
                                 <h6>Capital Expenses</h6>
                             </div>
@@ -114,7 +115,7 @@
                                 <span id="capitalExpenses"></span> million USD
                             </div>
                         </div>
-                        <div class="expense-category">
+                        <div class="expense-category mb-3">
                             <div class="expense-label">
                                 <h6>Operating Expenses</h6>
                             </div>
@@ -122,7 +123,7 @@
                                 <span id="operatingExpenses"></span> million USD/yr
                             </div>
                         </div>
-                        <div class="expense-category">
+                        <div class="expense-category mb-3">
                             <div class="expense-label">
                                 <h6>COGS (with Depreciation)</h6>
                             </div>
@@ -130,7 +131,7 @@
                                 <span id="cogsWithDepreciation"></span> USD/kg
                             </div>
                         </div>
-                        <div class="expense-category">
+                        <div class="expense-category mb-3">
                             <div class="expense-label">
                                 <h6>COGS (without Depreciation)</h6>
                             </div>

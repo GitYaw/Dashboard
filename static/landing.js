@@ -74,9 +74,9 @@ function onPageLoad() {
 function selectBioreactor() {
     
     var dropdown = document.getElementById("bioreactorType");
-    if (dropdown.selectedIndex == 0){
-        return
-    }
+    // if (dropdown.selectedIndex == 0){
+    //     return
+    // }
     
     var bioreactorType = dropdown.options[dropdown.selectedIndex].value;
     bioreactor = bioreactors[bioreactorType];

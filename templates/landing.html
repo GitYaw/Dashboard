@@ -25,7 +25,7 @@
         </div>
         <div id="diagram-image">
             <h4 id="bioreactorLabel"></h4>
-            <img src="" alt="Flow Diagram" id="flowDiagram" class="img-fluid border">
+            <img src="" alt="Flow Diagram" id="flowDiagram" class="img-fluid img-thumbnail">
         </div>
     </section>
     <section class="container-fluid mb-4" id="calculator">
@@ -90,15 +90,16 @@
                 </form>
             </div>
             <div class="col-md-8 shadow-sm p-3 mb-5 rounded" id="outputs">
-                <div id="output-title">
-                    <h3>Expense Breakdown Per Facility</h3>
-                    <p class="small">(<span id="facilitiesNeeded"></span> facilities needed to reach 100,000,000 kg/yr.)</p>
+                <div class="text-center" id="output-title">
+                    <h3>Expense Breakdown</h3>
+                    <p class="lead"><span id="facilitiesNeeded"></span> facilities needed to reach 100,000,000 kg/yr.</p>
                 </div>
                 <div class="row" id="expense-breakdown">
                     <div class="col-8" id="chart-container">
                         <canvas id="expensesChart"></canvas>
                     </div>
                     <div class="col align-self-center" id="expense-list">
+                        <h5 class="mb-4">Breakdown Per Facility</h5>
                         <div class="expense-category mb-3">
                             <div class="expense-label">
                                 <h6>Annual Production</h6>

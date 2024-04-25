@@ -149,6 +149,7 @@ function calculateExpenses() {
 
     // document.getElementById("bioreactorName").innerText = bioreactor.name;
     document.getElementById("annualProduction").innerText = bioreactor.annualProduction.toLocaleString();
+    document.getElementById("facilitiesNeeded").innerText = (100000000 / bioreactor.annualProduction).toFixed();
     document.getElementById("capitalExpenses").innerText = (capitalExpense / 1000000).toFixed(1);
     document.getElementById("operatingExpenses").innerText = (operatingExpenses / 1000000).toFixed(1);
     document.getElementById("cogsWithDepreciation").innerText = salesCost.toFixed(2);
@@ -176,8 +177,8 @@ function createChart() {
         type: 'doughnut',
         data: initialData,
         options: {
-            responsive: true,
-            aspectRatio: 1
+            aspectRatio: 1,
+            maintainAspectRatio: false
         },
     });
 }

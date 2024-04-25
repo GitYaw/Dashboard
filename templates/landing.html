@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/landing.js"> </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body class="mt-3 mb-4 mx-5">
+    <header class="mb-4">
+        <h1 class="display-6">Cultivated Meat Dashboard</h1>
+    </header>
+    <section class="mb-4" id="diagram">
+        <div class="mb-3" id="diagram-select">
+            <select class="form-select" id="bioreactorType" onchange=selectBioreactor()>
+              <!-- <option selected>Select a bioreactor</option> -->
+                <option value="40K_STR">42K STR</option>
+                <option value="210K_STR">211K STR</option>
+                <option selected value="260K_ALR">262K ALR</option>
+            </select>
+        </div>
+        <div id="diagram-image">
+            <h4 id="bioreactorLabel"></h4>
+            <img src="" alt="Flow Diagram" id="flowDiagram" class="img-fluid img-thumbnail">
+        </div>
+    </section>
+    <section class="container-fluid" id="calculator">
+        <div class="row gx-5" id="main-content">
+            <div class="col-md-4 mb-3" id="inputs">
+                <form>
+                    <div id="parameters">
+                        <div class="parameter mb-3">
+                            <label for="mediaCost" class="form-label"><strong>Media Cost</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter media cost" value="1" id="mediaCost" required>
+                                  <span class="input-group-text"> / L</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="laborCost" class="form-label"><strong>Change in Labor Cost</strong></label>
+                            <div class="parameter-value input-group">
+                              <input type="number" class="form-control" placeholder="Enter change in labor cost" value="0" id="laborCost" required>
+                              <span class="input-group-text">%</span>
+                            </div>
+                            <div class="form-text">Labor cost as a percent difference from base labor cost of bioreactor.</div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="electricityCost" class="form-label"><strong>Electricity Cost</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of electricity" value="0.1" step="0.1" id="electricityCost" required>
+                                  <span class="input-group-text"> / kW-h</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="steamCost" class="form-label"><strong>Steam Cost</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of steam" value="10" id="steamCost" required>
+                                  <span class="input-group-text"> / MT</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="coolingWaterCost" class="form-label"><strong>Cost of Cooling Water</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of cooling water" value="0.05" step="0.05" id="coolingWaterCost" required>
+                                  <span class="input-group-text"> / MT</span>
+                            </div>
+                        </div>
+                        <div class="parameter mb-3">
+                            <label for="chilledWaterCost" class="form-label"><strong>Cost of Chilled Water</strong></label>
+                            <div class="input-group">
+                              <span class="input-group-text">$</span>
+                              <input type="number" class="form-control" placeholder="Enter cost of chilled water" value="0.5" step="0.1" id="chilledWaterCost" required>
+                                  <span class="input-group-text"> / MT</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="parameter-dropdown">
+                    </div>
+                    <div id="parameter-update">
+                        <button type="button" class="btn btn-primary" onclick="displayOutputs()">Update</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 shadow-sm p-3 rounded" id="outputs">
+                <div class="text-center" id="output-title">
+                    <h3>Expense Breakdown</h3>
+                    <p class="lead"><span id="facilitiesNeeded"></span> facilities needed to reach 100,000,000 kg/yr.</p>
+                </div>
+                <div class="row" id="expense-breakdown">
+                    <div class="col-8" id="chart-container">
+                        <canvas id="expensesChart"></canvas>
+                    </div>
+                    <div class="col align-self-center" id="expense-list">
+                        <h5 class="mb-4">Breakdown Per Facility</h5>
+                        <div class="expense-category mb-3">
+                            <div class="expense-label">
+                                <h6>Annual Production</h6>
+                            </div>
+                            <div class="expense-value">
+                                <span id="annualProduction"></span> kg/yr
+                            </div>
+                        </div>
+                        <div class="expense-category mb-3">
+                            <div class="expense-label">
+                                <h6>Capital Expenses</h6>
+                            </div>
+                            <div class="expense-value">
+                                <span id="capitalExpenses"></span> million USD
+                            </div>
+                        </div>
+                        <div class="expense-category mb-3">
+                            <div class="expense-label">
+                                <h6>Operating Expenses</h6>
+                            </div>
+                            <div class="expense-value">
+                                <span id="operatingExpenses"></span> million USD/yr
+                            </div>
+                        </div>
+                        <div class="expense-category mb-3">
+                            <div class="expense-label">
+                                <h6>COGS (with Depreciation)</h6>
+                            </div>
+                            <div class="expense-value">
+                                <span id="cogsWithDepreciation"></span> USD/kg
+                            </div>
+                        </div>
+                        <div class="expense-category mb-3">
+                            <div class="expense-label">
+                                <h6>COGS (without Depreciation)</h6>
+                            </div>
+                            <div class="expense-value">
+                                <span id="cogsWithoutDepreciation"></span> USD/kg
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+
+</html>

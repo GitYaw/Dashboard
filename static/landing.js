@@ -149,11 +149,13 @@ function calculateExpenses() {
 
     // document.getElementById("bioreactorName").innerText = bioreactor.name;
     document.getElementById("annualProduction").innerText = bioreactor.annualProduction.toLocaleString();
-    document.getElementById("facilitiesNeeded").innerText = (100000000 / bioreactor.annualProduction).toFixed();
-    document.getElementById("capitalExpenses").innerText = (capitalExpense / 1000000).toFixed(1);
     document.getElementById("operatingExpenses").innerText = (operatingExpenses / 1000000).toFixed(1);
     document.getElementById("cogsWithDepreciation").innerText = salesCost.toFixed(2);
     document.getElementById("cogsWithoutDepreciation").innerText = adjustedSalesCost.toFixed(2);
+
+    var facilitiesNeeded = Math.round(100000000 / bioreactor.annualProduction)
+    document.getElementById("facilitiesNeeded").innerText = facilitiesNeeded;
+    document.getElementById("capitalExpenses").innerText = (capitalExpense / 1000000 * facilitiesNeeded).toFixed(1);
 
     chartData.set('Media', media);
     chartData.set('Other Raw Materials', otherMaterials);

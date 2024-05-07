@@ -40,9 +40,7 @@
                             <div class="parameter mb-3">
                                 <label for="{{ parameter.id }}" class="form-label"><strong>{{ parameter.label }}</strong></label>
                                 <div class="input-group">
-                                    {% if parameter.unit1 %}
                                         <span class="input-group-text">{{ parameter.unit1 }}</span>
-                                    {% endif %}
                                   <input type="number" class="form-control" placeholder="Enter {{ parameter.label }}" value="{{ parameter.default }}" id="{{ parameter.id }}" required>
                                     {% if parameter.unit2 %}
                                         <span class="input-group-text">{{ parameter.unit2 }}</span>
@@ -79,6 +77,14 @@
                         </div>
                         <div class="expense-category mb-3">
                             <div class="expense-label">
+                                <h6>Capital Expenses (single facility)</h6>
+                            </div>
+                            <div class="expense-value">
+                                <span id="capitalExpensesPerFacility"></span> million USD
+                            </div>
+                        </div>
+                        <div class="expense-category mb-3">
+                            <div class="expense-label">
                                 <h6>Operating Expenses</h6>
                             </div>
                             <div class="expense-value">
@@ -87,7 +93,7 @@
                         </div>
                         <div class="expense-category mb-3">
                             <div class="expense-label">
-                                <h6>COGS (with Depreciation)</h6>
+                                <h6>COGS with Depreciation</h6>
                             </div>
                             <div class="expense-value">
                                 <span id="cogsWithDepreciation"></span> USD/kg
@@ -95,7 +101,7 @@
                         </div>
                         <div class="expense-category mb-3">
                             <div class="expense-label">
-                                <h6>COGS (without Depreciation)</h6>
+                                <h6>COGS without Depreciation</h6>
                             </div>
                             <div class="expense-value">
                                 <span id="cogsWithoutDepreciation"></span> USD/kg
@@ -104,7 +110,7 @@
                         <h5 class="mb-3"><span id="facilitiesNeeded"></span> facilities needed to reach 100,000,000 kg/yr.</h5>
                         <div class="expense-category mb-3">
                             <div class="expense-label">
-                                <h6>Capital Expenses</h6>
+                                <h6>Capital Expenses (for 25 facilities)</h6>
                             </div>
                             <div class="expense-value">
                                 <span id="capitalExpenses"></span> million USD

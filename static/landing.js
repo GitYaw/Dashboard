@@ -149,6 +149,7 @@ function calculateExpenses() {
 
     // document.getElementById("bioreactorName").innerText = bioreactor.name;
     document.getElementById("annualProduction").innerText = bioreactor.annualProduction.toLocaleString();
+    document.getElementById("capitalExpensesPerFacility").innerText = (capitalExpense / 1000000).toFixed(1);
     document.getElementById("operatingExpenses").innerText = (operatingExpenses / 1000000).toFixed(1);
     document.getElementById("cogsWithDepreciation").innerText = salesCost.toFixed(2);
     document.getElementById("cogsWithoutDepreciation").innerText = adjustedSalesCost.toFixed(2);

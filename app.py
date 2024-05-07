@@ -15,6 +15,13 @@ def get_data():
             "description": "The base case cost is $1.4/L"
         },
         {
+            "id": "laborCost",
+            "label": "Change in Labor Cost",
+            "default": 0,
+            "unit2": "%",
+            "description": "Labor cost as a percent difference from base labor cost"
+        },
+        {
             "id": "electricityCost",
             "label": "Electricity Cost",
             "default": 0.1,
@@ -46,13 +53,6 @@ def get_data():
             "unit2": " / MT",
             "description": "The base case cost is $0.4/MT"
         },
-        {
-            "id": "laborCost",
-            "label": "Change in Labor Cost",
-            "default": 0,
-            "unit2": "%",
-            "description": "Labor cost as a percent difference from base labor cost"
-        }
     ]
 
     breakdowns = [

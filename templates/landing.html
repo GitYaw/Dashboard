@@ -68,6 +68,7 @@
                     <div class="col align-self-center" id="expense-list">
                         <h5 class="mb-4">Breakdown Per Facility</h5>
                         <div class="expense-category mb-3">
+                            <!-- add capital expense -->
                             <div class="expense-label">
                                 <h6>Annual Production</h6>
                             </div>
@@ -127,48 +128,42 @@
         <caption>Breakdown of labor cost</caption>
         <thead>
             <tr>
-                <th scope="col">Percent Change</th>
-                <th scope="col">Upstream Operator</th>
-                <th scope="col">Downstream Operator</th>
-                <th scope="col">Midstream Operator</th>
-                <th scope="col">Total Cost</th>
+                <th scope="col">Percent Change (%)</th>
+                <th scope="col">USP Operator ($/hr)<br/><small class="fw-normal"><span class="fw-medium" id="upstreamHours">20353</span> hours per year</small></th>
+                <th scope="col">Operator ($/hr)<br/><small class="fw-normal"><span class="fw-medium" id="mainHours">2756</span> hours per year</small></th>
+                <th scope="col">DSP Operator ($/hr)<br/><small class="fw-normal"><span class="fw-medium" id="downstreamHours">261</span> hours per year</small></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr id="percentage--2">
                 <th scope="row">-2</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="upstream"></td>
+                <td class="main"></td>
+                <td class="downstream"></td>
             </tr>
-            <tr>
+            <tr id="percentage--1">
                 <th scope="row">-1</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="upstream"></td>
+                <td class="main"></td>
+                <td class="downstream"></td>
             </tr>
-            <tr>
+            <tr id="percentage-0">
                 <th scope="row">0</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="upstream"></td>
+                <td class="main"></td>
+                <td class="downstream"></td>
             </tr>
-            <tr>
+            <tr id="percentage-1">
                 <th scope="row">1</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="upstream"></td>
+                <td class="main"></td>
+                <td class="downstream"></td>
             </tr>
-            <tr>
+            <tr id="percentage-2">
                 <th scope="row">2</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="upstream"></td>
+                <td class="main"></td>
+                <td class="downstream"></td>
             </tr>
         </tbody>
     </table>

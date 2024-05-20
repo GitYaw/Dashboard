@@ -5,13 +5,23 @@ let productionCosts = new Map();
 let chartData = new Map();
 var expensesChart;
 
+const baseHourlyCosts = {
+    upstream: 46.00,
+    main: 34.50,
+    downstream: 57.50
+};
+
 const bioreactors = {
     "260K_ALR": {
         name: "262,000 L Airlift Bioreactor",
         image: "static/260K_ALR.png",
         annualProduction: 25000000,
         mediaVolume: 253758783,
-        baseLaborCost: 2756*34.50 + 20353*46.00 + 261*57.50,
+        laborHours: {
+            upstream: 20353,
+            main: 2756,
+            downstream: 261
+        },
         otherMaterialsCost: 5464682,
         wasteTreatmentCost: 3034484,
         facilityCosts: 59461000,
@@ -20,7 +30,7 @@ const bioreactors = {
         steamUsage: 27232,
         coolingWaterUsage: 1263320,
         chilledWaterUsage: 110527,
-        capitalExpense: 365900000, // missing capital expense
+        capitalExpense: 365900000,
         depreciation: 1.2
     },
     "210K_STR": {
@@ -28,7 +38,11 @@ const bioreactors = {
         image: "static/210K_STR.png",
         annualProduction: 20170140,
         mediaVolume: 205220306,
-        baseLaborCost: 1443*34.50 + 20302*46.00 + 261*57.50,
+        laborHours: {
+            upstream: 20302,
+            main: 1443,
+            downstream: 261
+        },
         otherMaterialsCost: 4566256,
         wasteTreatmentCost: 2486000,
         facilityCosts: 205003000,
@@ -45,7 +59,11 @@ const bioreactors = {
         image: "static/40K_STR.png",
         annualProduction: 4003226,
         mediaVolume: 40732424,
-        baseLaborCost: 722*34.50 + 24076*46.00 + 261*57.50,
+        laborHours: {
+            upstream: 24076,
+            main: 722,
+            downstream: 261
+        },
         otherMaterialsCost: 2519278,
         wasteTreatmentCost: 697000,
         facilityCosts: 77202000,
@@ -64,6 +82,8 @@ function onPageLoad() {
 
     selectBioreactor();
 
+    computeTable()
+
     updateCosts();
 
     calculateExpenses();
@@ -74,9 +94,7 @@ function onPageLoad() {
 function selectBioreactor() {
     
     var dropdown = document.getElementById("bioreactorType");
-    // if (dropdown.selectedIndex == 0){
-    //     return
-    // }
+    // if (dropdown.selectedIndex == 0) { return }
     
     var bioreactorType = dropdown.options[dropdown.selectedIndex].value;
     bioreactor = bioreactors[bioreactorType];
@@ -85,8 +103,56 @@ function selectBioreactor() {
     flowDiagram.src = bioreactors[bioreactorType].image;
 
     var bioreactorLabel = document.getElementById("bioreactorLabel");
-    bioreactorLabel.innerHTML = "Flow Diagram: " + bioreactors[bioreactorType].name;	
+    bioreactorLabel.innerHTML = "Flow Diagram: " + bioreactors[bioreactorType].name;
+
+    updateLaborInfo()
     
+}
+
+function updateLaborInfo() {
+
+    // Update the hours per year in the table header
+    document.getElementById("upstreamHours").textContent = bioreactor.laborHours.upstream;
+    document.getElementById("mainHours").textContent = bioreactor.laborHours.main;
+    document.getElementById("downstreamHours").textContent = bioreactor.laborHours.downstream;
+
+    // Calculate base labor cost if not yet computed
+    if (!bioreactor.hasOwnProperty("baseLaborCost")) {
+        // base labor cost not yet computed
+
+        var baseLaborCost = 0;
+
+        for (let operator in bioreactor.laborHours) {
+
+            operatorTotal = bioreactor.laborHours[operator] * baseHourlyCosts[operator]
+            baseLaborCost += operatorTotal;
+        }
+
+        bioreactor.baseLaborCost = baseLaborCost;
+        console.log(bioreactor.baseLaborCost);
+    }
+}
+
+function computeTable() {
+
+    const percentages = [-2, -1, 0, 1, 2];
+
+    percentages.forEach((percentage) => {
+        const row = document.getElementById(`percentage-${percentage}`);
+
+        if (row) {
+            let upstreamCost = baseHourlyCosts.upstream * (1 + percentage / 100);
+            let mainCost = baseHourlyCosts.main * (1 + percentage / 100);
+            let downstreamCost = baseHourlyCosts.downstream * (1 + percentage / 100);
+
+            row.querySelector(".upstream").textContent = upstreamCost.toFixed(2);
+            row.querySelector(".main").textContent = mainCost.toFixed(2);
+            row.querySelector(".downstream").textContent = downstreamCost.toFixed(2);
+        }
+    });
+    
+    // does not need to be calculated for all bioreactors at start -> only upon selection of bioreactor
+    // but also should not have to be re-computed -> store with bioreactor once computed
 }
 
 function displayOutputs() {
@@ -106,7 +172,7 @@ function displayOutputs() {
 
 function updateCosts() {
     productionCosts.media = parseFloat(document.getElementById('mediaCost').value);
-    productionCosts.laborScale = parseFloat(document.getElementById('laborCost').value);
+    productionCosts.laborScale = parseFloat(document.getElementById('laborCost').value)
     productionCosts.power = parseFloat(document.getElementById('electricityCost').value);
     productionCosts.steam = parseFloat(document.getElementById('steamCost').value);
     productionCosts.coolingWater = parseFloat(document.getElementById('coolingWaterCost').value);
@@ -115,7 +181,7 @@ function updateCosts() {
 }
 
 function calculateExpenses() {
-    console.log(bioreactor)
+    // console.log(bioreactor);
     
     // Cost of Utilities
     var power = productionCosts.power * bioreactor.powerUsage;
@@ -127,7 +193,7 @@ function calculateExpenses() {
     // Operating Expenses
     var media = productionCosts.media * bioreactor.mediaVolume;
     var otherMaterials = bioreactor.otherMaterialsCost;
-    var labor = (1 + productionCosts.laborScale) * bioreactor.baseLaborCost;
+    var labor = (1 + productionCosts.laborScale / 100) * bioreactor.baseLaborCost;
     var waste = bioreactor.wasteTreatmentCost;
     var facility = bioreactor.facilityCosts;
     var consumables = bioreactor.consumableCosts;
@@ -141,11 +207,7 @@ function calculateExpenses() {
 
     // Costs of Goods Sold (without depreciation)
     var adjustedSalesCost = salesCost - bioreactor.depreciation;
-
-    console.log("CAPEX: ", (capitalExpense / 1000000).toFixed(1), "(mil $)")
-    console.log("OPEX: ", (operatingExpenses / 1000000).toFixed(1), "(mil $/yr)")
-    console.log("COGS: ", salesCost.toFixed(2), "($/kg) (with Depreciaton)")
-    console.log("COGS: ", adjustedSalesCost.toFixed(2), "($/kg) (without Depreciation)")
+    
 
     // document.getElementById("bioreactorName").innerText = bioreactor.name;
     document.getElementById("annualProduction").innerText = bioreactor.annualProduction.toLocaleString();
